@@ -1,29 +1,17 @@
-import React, { useState } from 'react';
+// Librairies
+import React from 'react';
 import classes from './App.module.css';
+
+// Composants
 import Header from './Components/Header/Header';
 import Commander from './Components/Commander/Commander';
 
-function App() {
+// Redux
+import { connect } from 'react-redux';
 
-  // State
-  const [minions, setMinions] = useState(0);
+function App(props) {
 
-  // Fonctions
-  const createMinionClickedHandler = () => {
-    setMinions(minions + 1);
-  }
 
-  const destroyMinionClickedHandler = () => {
-    setMinions(minions - 1);
-  }
-
-  const createTeamClickedHandler = () => {
-    setMinions(minions + 5);
-  }
-
-  const destroyTeamClickedHandler = () => {
-    setMinions(minions - 5);
-  }
 
   return (
     <div className={classes.App}>
@@ -33,19 +21,21 @@ function App() {
         <div className={classes.content}>
           <h1>À la conquête du monde</h1>
           <div className={classes.minions}>
-            <span>{minions}</span>
+            <span>{props.minions}</span>
             minions infiltrés
           </div>
         </div>
 
-        <Commander
-          createMinion={createMinionClickedHandler}
-          destroyMinion={destroyMinionClickedHandler}
-          createTeam={createTeamClickedHandler}
-          destroyTeam={destroyTeamClickedHandler} />
+        <Commander />
       </div>
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    minions: state.minions
+  }
+}
+
+export default connect(mapStateToProps)(App);
